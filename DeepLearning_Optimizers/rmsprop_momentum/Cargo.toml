@@ -1,0 +1,4 @@
+[package]
+name = "rmsprop_momentum"
+version = "0.1.0"
+authors = ["Mihai Galos <mihaigalos@gmail.com>"]
