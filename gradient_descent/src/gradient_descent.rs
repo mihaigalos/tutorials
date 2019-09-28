@@ -9,16 +9,18 @@ pub struct Metadata {
 pub struct GrandientDescent {}
 
 impl GrandientDescent {
-    pub fn run(metadata: Metadata) -> (bool, f32){
+    pub fn run(metadata: Metadata) -> (bool, f32) {
         let mut next = metadata.start_x;
-        let mut current_x=0.0;
+        let mut current_x = 0.0;
         let mut found = false;
+
         for i in 0..metadata.max_iterations {
             current_x = next;
             next = current_x - metadata.step_size * (metadata.derrivative)(current_x);
-
             let step = next - current_x;
+
             println!("iteration: {}, current x: {}, step: {}", i, current_x, step);
+
             if step.abs() <= metadata.precision {
                 found = true;
                 break;
