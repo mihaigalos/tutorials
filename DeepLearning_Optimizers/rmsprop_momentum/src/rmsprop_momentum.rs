@@ -26,7 +26,10 @@ impl RMSPropMomentum {
 
             let step = next - current_x;
 
-            println!("Epoch: {}, current x: {}, step: {}, momentum: {}", epoch, current_x, step, momentum);
+            println!(
+                "Epoch: {}, current x: {}, step: {}, momentum: {}",
+                epoch, current_x, step, momentum
+            );
 
             if step.abs() <= metadata.precision {
                 found = true;
