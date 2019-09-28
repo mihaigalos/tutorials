@@ -1,0 +1,4 @@
+[package]
+name = "GradientDescent"
+version = "0.1.0"
+authors = ["Mihai Galos <mihaigalos@gmail.com>"]
