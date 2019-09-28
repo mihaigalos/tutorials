@@ -1,1 +1,1 @@
-# Rust
+# Algorithms
