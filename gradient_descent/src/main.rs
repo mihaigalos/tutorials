@@ -14,5 +14,6 @@ fn main() {
         max_iterations: 10000,
         derrivative: example_derrivative,
     };
-    GrandientDescent::run(metadata);
+    let (found, minimum_x) = GrandientDescent::run(metadata);
+    println!("Solution : {}, minimum X found at: {}", found, minimum_x);
 }
