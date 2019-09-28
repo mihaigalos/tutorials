@@ -16,12 +16,11 @@ impl RMSProp {
         let mut dx_mean_sqr = 0.0;
         let epsilon = 0.0000000001; // neccessary for numerical stability, avoid div with 0
         for epoch in 0..metadata.max_epochs {
-
             current_x = next;
             let dx = (metadata.derrivative)(current_x);
             dx_mean_sqr = decay * dx_mean_sqr + (1.0 - decay) * dx.powf(2.0);
-            next = current_x - metadata.step_size * dx /(dx_mean_sqr.sqrt() + epsilon);
-            
+            next = current_x - metadata.step_size * dx / (dx_mean_sqr.sqrt() + epsilon);
+
             let step = next - current_x;
 
             println!("Epoch: {}, current x: {}, step: {}", epoch, current_x, step);
