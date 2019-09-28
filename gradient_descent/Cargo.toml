@@ -1,4 +1,5 @@
 [package]
-name = "GradientDescent"
+name = "gradient_descent"
 version = "0.1.0"
 authors = ["Mihai Galos <mihaigalos@gmail.com>"]
+#build = "src/gradient_descent.rs"

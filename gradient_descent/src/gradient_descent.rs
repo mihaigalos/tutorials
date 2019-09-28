@@ -1,23 +1,30 @@
 // Gradient descent, implmented in Rust
+pub struct Metadata {
+    pub next_x: f32,
+    pub step_size: f32,
+    pub precision: f32,
+    pub max_iterations: i32,
+}
+
+pub struct GrandientDescent {}
+
+impl GrandientDescent{
+    pub fn run(metadata : Metadata) {
+        let mut next = metadata.next_x;
+        for i in 0 .. metadata.max_iterations {
+            let current_x = next;
+            next = current_x - metadata.step_size * derrivative(&current_x);
+
+            let step = next - current_x;
+            println!("iteration: {}, current x: {}, step: {}", i, current_x, step);
+            if step.abs() <= metadata.precision {
+                break;
+            }
+        }    
+    }
+}
 
 fn derrivative(x: &f32) -> f32 {
     4.0 * x.powf(3.0) - 9.0 * x.powf(2.0)
 }
 
-fn main() {
-    let mut next_x: f32 = 6.0; // We start the search at x=6
-    let step_size: f32 = 0.01;
-    let precision: f32 = 0.00001;
-    let max_interations: i32 = 10000;
-
-    for i in 0..max_interations {
-        let current_x = next_x;
-        next_x = current_x - step_size * derrivative(&current_x);
-
-        let step = next_x - current_x;
-        println!("iteration: {}, current x: {}, step: {}", i, current_x, step);
-        if step.abs() <= precision {
-            break;
-        }
-    }
-}
