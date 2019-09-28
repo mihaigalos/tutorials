@@ -11,7 +11,7 @@ fn main() {
         start_x: 6.0,
         step_size: 0.01,
         precision: 0.00001,
-        max_iterations: 10000,
+        max_epochs: 10000,
         derrivative: example_derrivative,
     };
     let decay=0.9;

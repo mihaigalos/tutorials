@@ -2,7 +2,7 @@ pub struct Metadata {
     pub start_x: f32,
     pub step_size: f32,
     pub precision: f32,
-    pub max_iterations: i32,
+    pub max_epochs: i32,
     pub derrivative: fn(f32) -> f32,
 }
 
@@ -15,7 +15,7 @@ impl RMSProp {
         let mut found = false;
         let mut dx_mean_sqr = 0.0;
         let epsilon = 0.0000000001; // neccessary for numerical stability, avoid div with 0
-        for i in 0..metadata.max_iterations {
+        for epoch in 0..metadata.max_epochs {
 
             current_x = next;
             let dx = (metadata.derrivative)(current_x);
@@ -24,7 +24,7 @@ impl RMSProp {
             
             let step = next - current_x;
 
-            println!("iteration: {}, current x: {}, step: {}", i, current_x, step);
+            println!("Epoch: {}, current x: {}, step: {}", epoch, current_x, step);
 
             if step.abs() <= metadata.precision {
                 found = true;
