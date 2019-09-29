@@ -17,11 +17,11 @@ impl GrandientDescent {
         for epoch in 0..metadata.max_epochs {
             current_x = next;
             next = current_x - metadata.step_size * (metadata.derrivative)(current_x);
-            let step = next - current_x;
+            let loss = next - current_x;
 
-            println!("Epoch: {}, current x: {}, step: {}", epoch, current_x, step);
+            println!("Epoch: {}, current x: {}, loss: {}", epoch, current_x, loss);
 
-            if step.abs() <= metadata.precision {
+            if loss.abs() <= metadata.precision {
                 found = true;
                 break;
             }

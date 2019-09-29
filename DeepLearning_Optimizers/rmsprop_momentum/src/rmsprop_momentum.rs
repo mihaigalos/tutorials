@@ -24,14 +24,14 @@ impl RMSPropMomentum {
             momentum = mu * momentum + metadata.step_size * dx / (dx_mean_sqr.sqrt() + epsilon);
             next = current_x - momentum;
 
-            let step = next - current_x;
+            let loss = next - current_x;
 
             println!(
-                "Epoch: {}, current x: {}, step: {}, momentum: {}",
-                epoch, current_x, step, momentum
+                "Epoch: {}, current x: {}, loss: {}, momentum: {}",
+                epoch, current_x, loss, momentum
             );
 
-            if step.abs() <= metadata.precision {
+            if loss.abs() <= metadata.precision {
                 found = true;
                 break;
             }
