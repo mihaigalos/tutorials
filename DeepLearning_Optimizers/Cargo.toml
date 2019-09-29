@@ -1,0 +1,4 @@
+[package]
+name = "deeplearning_optimizers"
+version = "0.1.0"
+authors = ["Mihai Galos <mihaigalos@gmail.com>"]
