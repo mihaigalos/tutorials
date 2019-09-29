@@ -4,6 +4,7 @@ pub struct Metadata {
     pub precision: f32,
     pub max_epochs: i32,
     pub derrivative: fn(f32) -> f32,
+    pub epoch_printer: fn(i32, f32, f32, Option<f32>),
 }
 
 pub struct GrandientDescent {}
@@ -19,7 +20,7 @@ impl GrandientDescent {
             next = current_x - metadata.step_size * (metadata.derrivative)(current_x);
             let loss = next - current_x;
 
-            println!("Epoch: {}, current x: {}, loss: {}", epoch, current_x, loss);
+            (metadata.epoch_printer)(epoch, current_x, loss, None);
 
             if loss.abs() <= metadata.precision {
                 found = true;
@@ -47,7 +48,7 @@ impl RMSProp {
 
             let loss = next - current_x;
 
-            println!("Epoch: {}, current x: {}, loss: {}", epoch, current_x, loss);
+            (metadata.epoch_printer)(epoch, current_x, loss, None);
 
             if loss.abs() <= metadata.precision {
                 found = true;
@@ -78,10 +79,7 @@ impl RMSPropMomentum {
 
             let loss = next - current_x;
 
-            println!(
-                "Epoch: {}, current x: {}, loss: {}, momentum: {}",
-                epoch, current_x, loss, momentum
-            );
+            (metadata.epoch_printer)(epoch, current_x, loss, Some(momentum));
 
             if loss.abs() <= metadata.precision {
                 found = true;
