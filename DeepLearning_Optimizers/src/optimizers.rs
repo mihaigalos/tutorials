@@ -39,7 +39,7 @@ impl RMSProp {
         let mut current_x = 0.0;
         let mut found = false;
         let mut dx_mean_sqr = 0.0;
-        let epsilon = 0.0000000001; // neccessary for numerical stability, avoid div with 0
+        let epsilon = 0.00000001; // neccessary for numerical stability, avoid div with 0
         let mut epochs = 0;
 
         for epoch in 0..config_metadata.max_epochs {
@@ -69,7 +69,7 @@ impl RMSPropMomentum {
         let mut current_x = 0.0;
         let mut found = false;
         let mut dx_mean_sqr = 0.0;
-        let epsilon = 0.0000000001; // neccessary for numerical stability, avoid div with 0
+        let epsilon = 0.00000001; // neccessary for numerical stability, avoid div with 0
         let mut momentum = 0.0;
         let mut epochs = 0;
 
