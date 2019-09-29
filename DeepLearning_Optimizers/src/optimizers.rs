@@ -21,7 +21,7 @@ impl GrandientDescent {
             let loss = next - current_x;
 
             (config_metadata.epoch_printer)(epoch, current_x, loss, None);
-            epochs +=1;
+            epochs += 1;
             if loss.abs() <= config_metadata.precision {
                 found = true;
                 break;
@@ -51,7 +51,7 @@ impl RMSProp {
             let loss = next - current_x;
 
             (config_metadata.epoch_printer)(epoch, current_x, loss, None);
-            epochs +=1;
+            epochs += 1;
             if loss.abs() <= config_metadata.precision {
                 found = true;
                 break;
@@ -77,13 +77,14 @@ impl RMSPropMomentum {
             current_x = next;
             let dx = (config_metadata.derrivative)(current_x);
             dx_mean_sqr = decay * dx_mean_sqr + (1.0 - decay) * dx.powf(2.0);
-            momentum = mu * momentum + config_metadata.step_size * dx / (dx_mean_sqr.sqrt() + epsilon);
+            momentum =
+                mu * momentum + config_metadata.step_size * dx / (dx_mean_sqr.sqrt() + epsilon);
             next = current_x - momentum;
 
             let loss = next - current_x;
 
             (config_metadata.epoch_printer)(epoch, current_x, loss, Some(momentum));
-            epochs +=1;
+            epochs += 1;
             if loss.abs() <= config_metadata.precision {
                 found = true;
                 break;

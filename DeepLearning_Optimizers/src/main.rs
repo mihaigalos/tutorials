@@ -1,10 +1,10 @@
 mod optimizers;
-use optimizers::GrandientDescent;
 use optimizers::ConfigMetadata;
+use optimizers::GrandientDescent;
 use optimizers::RMSProp;
 use optimizers::RMSPropMomentum;
 
-static VERBOSE: bool = false;
+static VERBOSE: bool = true;
 
 fn example_derrivative(x: f32) -> f32 {
     4.0 * x.powf(3.0) - 9.0 * x.powf(2.0)
