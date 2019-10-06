@@ -27,6 +27,14 @@ fn epoch_print(
     (config_metadata.epoch_printer)(epoch, run_metadata.current.clone(), loss, None);
 }
 
+fn non_converged(run_metadata: RunMetadata) -> (OptimizerResult, Vec<f32>, i32) {
+    (
+        OptimizerResult::NotConverged,
+        Vec::with_capacity(0),
+        run_metadata.epochs,
+    )
+}
+
 pub struct GrandientDescent {}
 
 impl GrandientDescent {
@@ -53,11 +61,7 @@ impl GrandientDescent {
                 }
             }
         }
-        (
-            OptimizerResult::NotConverged,
-            Vec::with_capacity(0),
-            run_metadata.epochs,
-        )
+        non_converged(run_metadata)
     }
 
     fn implementation(
@@ -111,11 +115,7 @@ impl RMSProp {
                 }
             }
         }
-        (
-            OptimizerResult::NotConverged,
-            Vec::with_capacity(0),
-            run_metadata.epochs,
-        )
+        non_converged(run_metadata)
     }
 
     fn implementation(
@@ -179,11 +179,7 @@ impl RMSPropMomentum {
                 }
             }
         }
-        (
-            OptimizerResult::NotConverged,
-            Vec::with_capacity(0),
-            run_metadata.epochs,
-        )
+        non_converged(run_metadata)
     }
 
     fn implementation(
