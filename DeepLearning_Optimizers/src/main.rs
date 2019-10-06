@@ -45,7 +45,7 @@ fn main() {
         found, minimum_x, epochs
     );
 
-    let rms_prop = RMSProp{};
+    let rms_prop = RMSProp {};
     let decay = 0.9;
     let (found, minimum_x, epochs) = rms_prop.run(&config_metadata, decay);
     println!(
@@ -53,9 +53,10 @@ fn main() {
         found, minimum_x, epochs
     );
 
+    let rms_prop_momentum = RMSPropMomentum {};
     let decay = 0.9;
     let mu = 0.9;
-    let (found, minimum_x, epochs) = RMSPropMomentum::run(&config_metadata, decay, mu);
+    let (found, minimum_x, epochs) = rms_prop_momentum.run(&config_metadata, decay, mu);
     println!(
         "RMSProm with momentum: Solution: {:?}, minimum X found at: {:?}, epochs: {}",
         found, minimum_x, epochs
