@@ -45,8 +45,9 @@ fn main() {
         found, minimum_x, epochs
     );
 
+    let rms_prop = RMSProp{};
     let decay = 0.9;
-    let (found, minimum_x, epochs) = RMSProp::run(&config_metadata, decay);
+    let (found, minimum_x, epochs) = rms_prop.run(&config_metadata, decay);
     println!(
         "RMSProp: Solution: {:?}, minimum X found at: {:?}, epochs: {}",
         found, minimum_x, epochs

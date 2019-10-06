@@ -78,31 +78,64 @@ impl GrandientDescent {
 pub struct RMSProp {}
 
 impl RMSProp {
-    pub fn run(config_metadata: &ConfigMetadata, decay: f32) -> (OptimizerResult, Vec<f32>, i32) {
-        let mut next = config_metadata.start.clone();
-        let mut current;
+    pub fn run(self, config_metadata: &ConfigMetadata, decay: f32) -> (OptimizerResult, Vec<f32>, i32) {
+        let mut run_metadata = RunMetadata {
+            next: config_metadata.start.clone(),
+            current: Vec::with_capacity(0),
+            epochs: 0,
+        };
         let mut dx_mean_sqr = 0.0;
-        let epsilon = 0.00000001; // neccessary for numerical stability, avoid div with 0
-        let mut epochs = 0;
-
         for epoch in 0..config_metadata.max_epochs {
-            current = next.clone();
-            epochs += 1;
+            run_metadata.current = run_metadata.next.clone();
+            run_metadata.epochs += 1;
             for dimmension in 0..config_metadata.derrivatives.len() {
-                let dx = (config_metadata.derrivatives[dimmension])(current[dimmension]);
-                dx_mean_sqr = decay * dx_mean_sqr + (1.0 - decay) * dx.powf(2.0);
-                next[dimmension] = current[dimmension]
-                    - config_metadata.step_size * dx / (dx_mean_sqr.sqrt() + epsilon);
+                let loss = self.implementation(&mut run_metadata, &config_metadata, dimmension, decay, &mut dx_mean_sqr);
 
-                let loss = next[dimmension] - current[dimmension];
+                self.epoch_print(&run_metadata, &config_metadata, loss, epoch);
 
-                (config_metadata.epoch_printer)(epoch, current.clone(), loss, None);
                 if loss.abs() <= config_metadata.precision {
-                    return (OptimizerResult::Converged, current, epochs);
+                    return (
+                        OptimizerResult::Converged,
+                        run_metadata.current,
+                        run_metadata.epochs,
+                    );
                 }
             }
         }
-        (OptimizerResult::NotConverged, Vec::with_capacity(0), epochs)
+        (
+            OptimizerResult::NotConverged,
+            Vec::with_capacity(0),
+            run_metadata.epochs,
+        )
+    }
+
+    fn implementation(
+        &self,
+        run_metadata: &mut RunMetadata,
+        config_metadata: &ConfigMetadata,
+        dimmension: usize,
+        decay: f32,
+        dx_mean_sqr: &mut f32,
+    ) -> f32 {
+        
+        let epsilon = 0.00000001; // neccessary for numerical stability, avoid div with 0
+        let dx = (config_metadata.derrivatives[dimmension])(run_metadata.current[dimmension]);
+        *dx_mean_sqr = decay * (*dx_mean_sqr) + (1.0 - decay) * dx.powf(2.0);
+        run_metadata.next[dimmension] = run_metadata.current[dimmension]
+        - config_metadata.step_size * dx / (dx_mean_sqr.sqrt() + epsilon);
+
+        let loss = run_metadata.next[dimmension] - run_metadata.current[dimmension];
+
+        loss
+    }
+    fn epoch_print(
+        &self,
+        run_metadata: &RunMetadata,
+        config_metadata: &ConfigMetadata,
+        loss: f32,
+        epoch: i32,
+    ) {
+        (config_metadata.epoch_printer)(epoch, run_metadata.current.clone(), loss, None);
     }
 }
 
