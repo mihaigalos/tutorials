@@ -1,7 +1,7 @@
 mod optimizers;
 use optimizers::ConfigMetadata;
 use optimizers::GrandientDescent;
-// use optimizers::RMSProp;
+use optimizers::RMSProp;
 // use optimizers::RMSPropMomentum;
 
 static VERBOSE: bool = false;
@@ -42,12 +42,12 @@ fn main() {
         found, minimum_x, epochs
     );
 
-    // let decay = 0.9;
-    // let (found, minimum_x, epochs) = RMSProp::run(&config_metadata, decay);
-    // println!(
-    //     "RMSProp: Solution: {}, minimum X found at: {}, epochs: {}",
-    //     found, minimum_x, epochs
-    // );
+    let decay = 0.9;
+    let (found, minimum_x, epochs) = RMSProp::run(&config_metadata, decay);
+    println!(
+        "RMSProp: Solution: {:?}, minimum X found at: {:?}, epochs: {}",
+        found, minimum_x, epochs
+    );
 
     // let decay = 0.9;
     // let mu = 0.9;

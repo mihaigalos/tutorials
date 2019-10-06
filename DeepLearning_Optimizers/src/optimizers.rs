@@ -38,35 +38,35 @@ impl GrandientDescent {
     }
 }
 
-// pub struct RMSProp {}
+pub struct RMSProp {}
 
-// impl RMSProp {
-//     pub fn run(config_metadata: &ConfigMetadata, decay: f32) -> (bool, f32, i32) {
-//         let mut next = config_metadata.start;
-//         let mut current = 0.0;
-//         let mut found = false;
-//         let mut dx_mean_sqr = 0.0;
-//         let epsilon = 0.00000001; // neccessary for numerical stability, avoid div with 0
-//         let mut epochs = 0;
+impl RMSProp {
+    pub fn run(config_metadata: &ConfigMetadata, decay: f32) -> (OptimizerResult, Vec<f32>, i32) {
+        let mut next = config_metadata.start.clone();
+        let mut current;
+        let mut dx_mean_sqr = 0.0;
+        let epsilon = 0.00000001; // neccessary for numerical stability, avoid div with 0
+        let mut epochs = 0;
 
-//         for epoch in 0..config_metadata.max_epochs {
-//             current = next;
-//             let dx = (config_metadata.derrivatives[0])(current);
-//             dx_mean_sqr = decay * dx_mean_sqr + (1.0 - decay) * dx.powf(2.0);
-//             next = current - config_metadata.step_size * dx / (dx_mean_sqr.sqrt() + epsilon);
+        for epoch in 0..config_metadata.max_epochs {
+            current = next.clone();
+            epochs += 1;
+            for dimmension in 0..config_metadata.derrivatives.len(){
+                let dx = (config_metadata.derrivatives[dimmension])(current[dimmension]);
+                dx_mean_sqr = decay * dx_mean_sqr + (1.0 - decay) * dx.powf(2.0);
+                next[dimmension] = current[dimmension] - config_metadata.step_size * dx / (dx_mean_sqr.sqrt() + epsilon);
 
-//             let loss = next - current;
+                let loss = next[dimmension] - current[dimmension];
 
-//             (config_metadata.epoch_printer)(epoch, current, loss, None);
-//             epochs += 1;
-//             if loss.abs() <= config_metadata.precision {
-//                 found = true;
-//                 break;
-//             }
-//         }
-//         (found, current, epochs)
-//     }
-// }
+                (config_metadata.epoch_printer)(epoch, current.clone(), loss, None);
+                if loss.abs() <= config_metadata.precision {
+                    return (OptimizerResult::Converged, current, epochs)
+                }
+            }
+        }
+        (OptimizerResult::NotConverged, Vec::with_capacity(0), epochs)
+    }
+}
 
 // pub struct RMSPropMomentum {}
 
