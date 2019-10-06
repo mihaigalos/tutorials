@@ -38,7 +38,8 @@ fn main() {
         epoch_printer: epoch_callback_printer,
     };
 
-    let (found, minimum_x, epochs) = GrandientDescent::run(&config_metadata);
+    let gradient_descent = GrandientDescent {};
+    let (found, minimum_x, epochs) = gradient_descent.run(&config_metadata);
     println!(
         "GD: Solution: {:?}, minimum pos found at: {:?}, epochs: {}",
         found, minimum_x, epochs
