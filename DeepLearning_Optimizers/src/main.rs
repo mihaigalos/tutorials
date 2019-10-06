@@ -2,7 +2,7 @@ mod optimizers;
 use optimizers::ConfigMetadata;
 use optimizers::GrandientDescent;
 use optimizers::RMSProp;
-// use optimizers::RMSPropMomentum;
+use optimizers::RMSPropMomentum;
 
 static VERBOSE: bool = false;
 
@@ -17,15 +17,17 @@ fn epoch_callback_printer(epoch: i32, current_x: Vec<f32>, loss: f32, momentum: 
                 "Epoch: {}, current pos: {:?}, loss: {}, momentum: {}",
                 epoch, current_x, loss, x
             ),
-            None => println!("Epoch: {}, current pos: {:?}, loss: {}", epoch, current_x, loss),
+            None => println!(
+                "Epoch: {}, current pos: {:?}, loss: {}",
+                epoch, current_x, loss
+            ),
         }
     }
 }
 
 fn main() {
     let example_derrivatives: Vec<fn(f32) -> f32> = vec![example_derrivative_x];
-    let start_ : Vec<f32> = vec! [6.0];
-
+    let start_: Vec<f32> = vec![6.0];
 
     let config_metadata = ConfigMetadata {
         start: start_,
@@ -49,11 +51,11 @@ fn main() {
         found, minimum_x, epochs
     );
 
-    // let decay = 0.9;
-    // let mu = 0.9;
-    // let (found, minimum_x, epochs) = RMSPropMomentum::run(config_metadata, decay, mu);
-    // println!(
-    //     "RMSProm with momentum: Solution: {}, minimum X found at: {}, epochs: {}",
-    //     found, minimum_x, epochs
-    // );
+    let decay = 0.9;
+    let mu = 0.9;
+    let (found, minimum_x, epochs) = RMSPropMomentum::run(&config_metadata, decay, mu);
+    println!(
+        "RMSProm with momentum: Solution: {:?}, minimum X found at: {:?}, epochs: {}",
+        found, minimum_x, epochs
+    );
 }
