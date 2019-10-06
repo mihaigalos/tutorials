@@ -18,6 +18,14 @@ pub struct RunMetadata {
     pub current: Vec<f32>,
     pub epochs: i32,
 }
+fn epoch_print(
+    run_metadata: &RunMetadata,
+    config_metadata: &ConfigMetadata,
+    loss: f32,
+    epoch: i32,
+) {
+    (config_metadata.epoch_printer)(epoch, run_metadata.current.clone(), loss, None);
+}
 
 pub struct GrandientDescent {}
 
@@ -34,7 +42,7 @@ impl GrandientDescent {
             for dimmension in 0..config_metadata.derrivatives.len() {
                 let loss = self.implementation(&mut run_metadata, &config_metadata, dimmension);
 
-                self.epoch_print(&run_metadata, &config_metadata, loss, epoch);
+                epoch_print(&run_metadata, &config_metadata, loss, epoch);
 
                 if loss.abs() <= config_metadata.precision {
                     return (
@@ -64,15 +72,6 @@ impl GrandientDescent {
         let loss = run_metadata.next[dimmension] - run_metadata.current[dimmension];
         loss
     }
-    fn epoch_print(
-        &self,
-        run_metadata: &RunMetadata,
-        config_metadata: &ConfigMetadata,
-        loss: f32,
-        epoch: i32,
-    ) {
-        (config_metadata.epoch_printer)(epoch, run_metadata.current.clone(), loss, None);
-    }
 }
 
 pub struct RMSProp {}
@@ -101,7 +100,7 @@ impl RMSProp {
                     &mut dx_mean_sqr,
                 );
 
-                self.epoch_print(&run_metadata, &config_metadata, loss, epoch);
+                epoch_print(&run_metadata, &config_metadata, loss, epoch);
 
                 if loss.abs() <= config_metadata.precision {
                     return (
@@ -137,15 +136,6 @@ impl RMSProp {
 
         loss
     }
-    fn epoch_print(
-        &self,
-        run_metadata: &RunMetadata,
-        config_metadata: &ConfigMetadata,
-        loss: f32,
-        epoch: i32,
-    ) {
-        (config_metadata.epoch_printer)(epoch, run_metadata.current.clone(), loss, None);
-    }
 }
 
 pub struct RMSPropMomentum {}
@@ -178,7 +168,7 @@ impl RMSPropMomentum {
                     &mut momentum,
                 );
 
-                self.epoch_print(&run_metadata, &config_metadata, loss, epoch);
+                epoch_print(&run_metadata, &config_metadata, loss, epoch);
 
                 if loss.abs() <= config_metadata.precision {
                     return (
@@ -216,14 +206,5 @@ impl RMSPropMomentum {
         let loss = run_metadata.next[dimmension] - run_metadata.current[dimmension];
 
         loss
-    }
-    fn epoch_print(
-        &self,
-        run_metadata: &RunMetadata,
-        config_metadata: &ConfigMetadata,
-        loss: f32,
-        epoch: i32,
-    ) {
-        (config_metadata.epoch_printer)(epoch, run_metadata.current.clone(), loss, None);
     }
 }
