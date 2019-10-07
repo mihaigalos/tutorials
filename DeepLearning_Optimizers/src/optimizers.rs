@@ -19,10 +19,7 @@ pub struct RunMetadata {
     pub epochs: i32,
 }
 fn epoch_print(
-    run_metadata: &RunMetadata,
-    config_metadata: &ConfigMetadata,
-    loss: f32,
-    epoch: i32,
+    run_metadata: &RunMetadata, config_metadata: &ConfigMetadata, loss: f32, epoch: i32,
 ) {
     (config_metadata.epoch_printer)(epoch, run_metadata.current.clone(), loss, None);
 }
@@ -65,10 +62,7 @@ impl GrandientDescent {
     }
 
     fn implementation(
-        &self,
-        run_metadata: &mut RunMetadata,
-        config_metadata: &ConfigMetadata,
-        dimmension: usize,
+        &self, run_metadata: &mut RunMetadata, config_metadata: &ConfigMetadata, dimmension: usize,
     ) -> f32 {
         run_metadata.next[dimmension] = run_metadata.current[dimmension]
             - config_metadata.step_size
@@ -82,9 +76,7 @@ pub struct RMSProp {}
 
 impl RMSProp {
     pub fn run(
-        self,
-        config_metadata: &ConfigMetadata,
-        decay: f32,
+        self, config_metadata: &ConfigMetadata, decay: f32,
     ) -> (OptimizerResult, Vec<f32>, i32) {
         let mut run_metadata = RunMetadata {
             next: config_metadata.start.clone(),
@@ -119,12 +111,8 @@ impl RMSProp {
     }
 
     fn implementation(
-        &self,
-        run_metadata: &mut RunMetadata,
-        config_metadata: &ConfigMetadata,
-        dimmension: usize,
-        decay: f32,
-        dx_mean_sqr: &mut f32,
+        &self, run_metadata: &mut RunMetadata, config_metadata: &ConfigMetadata, dimmension: usize,
+        decay: f32, dx_mean_sqr: &mut f32,
     ) -> f32 {
         let epsilon = 0.00000001; // neccessary for numerical stability, avoid div with 0
         let dx = (config_metadata.derrivatives[dimmension])(run_metadata.current[dimmension]);
@@ -142,10 +130,7 @@ pub struct RMSPropMomentum {}
 
 impl RMSPropMomentum {
     pub fn run(
-        self,
-        config_metadata: &ConfigMetadata,
-        decay: f32,
-        mu: f32,
+        self, config_metadata: &ConfigMetadata, decay: f32, mu: f32,
     ) -> (OptimizerResult, Vec<f32>, i32) {
         let mut run_metadata = RunMetadata {
             next: config_metadata.start.clone(),
@@ -183,14 +168,8 @@ impl RMSPropMomentum {
     }
 
     fn implementation(
-        &self,
-        run_metadata: &mut RunMetadata,
-        config_metadata: &ConfigMetadata,
-        dimmension: usize,
-        decay: f32,
-        mu: f32,
-        dx_mean_sqr: &mut f32,
-        momentum: &mut f32,
+        &self, run_metadata: &mut RunMetadata, config_metadata: &ConfigMetadata, dimmension: usize,
+        decay: f32, mu: f32, dx_mean_sqr: &mut f32, momentum: &mut f32,
     ) -> f32 {
         let epsilon = 0.00000001; // neccessary for numerical stability, avoid div with 0
         let dx = (config_metadata.derrivatives[dimmension])(run_metadata.current[dimmension]);
