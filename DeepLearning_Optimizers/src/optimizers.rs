@@ -10,6 +10,7 @@ pub struct ConfigMetadata {
     pub step_size: f32,
     pub precision: f32,
     pub max_epochs: i32,
+    pub ground_truth: fn(Vec<f32>) -> f32,
     pub derrivatives: Vec<fn(Vec<f32>) -> f32>,
     pub epoch_printer: fn(i32, Vec<f32>, f32, Option<f32>),
 }
@@ -46,35 +47,28 @@ impl GrandientDescent {
             run_metadata.current = run_metadata.next.clone();
             run_metadata.epochs += 1;
             for dimmension in 0..config_metadata.derrivatives.len() {
-                let loss = self.implementation(&mut run_metadata, &config_metadata, dimmension);
-
-                epoch_print(&run_metadata, &config_metadata, loss, epoch);
-
-                if loss.abs() <= config_metadata.precision {
-                    return (
-                        OptimizerResult::Converged,
-                        run_metadata.current,
-                        run_metadata.epochs,
-                    );
-                }
+                self.implementation(&mut run_metadata, &config_metadata, dimmension);
             }
-            // if epoch > 10{
-            //     process::exit(0x0100);
-            // }
+            let loss = (config_metadata.ground_truth)(run_metadata.next.clone());
+            if loss.abs() <= config_metadata.precision {
+                return (
+                    OptimizerResult::Converged,
+                    run_metadata.current,
+                    run_metadata.epochs,
+                );
+            }
+
+            epoch_print(&run_metadata, &config_metadata, loss, epoch);
         }
         non_converged(run_metadata)
     }
 
     fn implementation(
         &self, run_metadata: &mut RunMetadata, config_metadata: &ConfigMetadata, dimmension: usize,
-    ) -> f32 {
+    ) {
         run_metadata.next[dimmension] = run_metadata.current[dimmension]
             - config_metadata.step_size
-        
                 * (config_metadata.derrivatives[dimmension])(run_metadata.current.clone());
-        let loss = run_metadata.next[dimmension] - run_metadata.current[dimmension];
-        loss
-       
     }
 }
 

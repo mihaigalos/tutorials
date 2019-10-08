@@ -6,14 +6,21 @@ use optimizers::GrandientDescent;
 
 static VERBOSE: bool = true;
 
-// Z = 0.1*X**3-0.3*X*(Y**2)+0.9*X*Y
-// Dx= 0.3*x^2 - 0.3y^2 + 0.9y
-// Dy= -0.6y + 0.9x
+// Z = 0.1*X**3-0.3*X*(Y**2)
+// Dx= 0.3*x^2 - 0.3y^2
+// Dy= -0.6*x*y
+
+fn example_ground_truth(x: Vec<f32>) -> f32 {
+    0.1 * x[0].powf(3.0) - 0.3 * x[0] * x[1].powf(2.0)
+}
+
 fn example_derrivative_x(x: Vec<f32>) -> f32 {
-    0.3 * x[0].powf(2.0) - 0.3 * x[1].powf(2.0) + 0.9*x[1]
+    // println!("dx : {}", 0.3 * x[0].powf(2.0) - 0.3 * x[1].powf(2.0));
+    0.3 * x[0].powf(2.0) - 0.3 * x[1].powf(2.0)
 }
 fn example_derrivative_y(x: Vec<f32>) -> f32 {
-    -0.6*x[1] + 0.9*x[0]
+    //  println!("dy : {}",-0.6 * x[0]* x[1]);
+    -0.6 * x[0] * x[1]
 }
 
 fn epoch_callback_printer(epoch: i32, current_x: Vec<f32>, loss: f32, momentum: Option<f32>) {
@@ -25,22 +32,24 @@ fn epoch_callback_printer(epoch: i32, current_x: Vec<f32>, loss: f32, momentum: 
             ),
             None => println!(
                 // "Epoch: {}, current pos: {:?}, loss: {}",
-                "{:?}",
-                current_x
+                "{:?}, {}",
+                current_x, loss
             ),
         }
     }
 }
 
 fn main() {
-    let example_derrivatives: Vec<fn(Vec<f32>) -> f32> = vec![example_derrivative_x, example_derrivative_y];
-    let start_: Vec<f32> = vec![0.0,8.0];
+    let example_derrivatives: Vec<fn(Vec<f32>) -> f32> =
+        vec![example_derrivative_x, example_derrivative_y];
+    let start_: Vec<f32> = vec![-5.0, 7.0];
 
     let config_metadata = ConfigMetadata {
         start: start_,
         step_size: 0.01,
         precision: 0.00001,
         max_epochs: 10000,
+        ground_truth: example_ground_truth,
         derrivatives: example_derrivatives,
         epoch_printer: epoch_callback_printer,
     };
