@@ -60,11 +60,13 @@ z = my_data[:, 2]
 
 
 def update(num, data, line, point):
+    # if num < len(data[2, :num]):
+
     line.set_data(data[:2, :num])
     line.set_3d_properties(data[2, :num])
-
-    point.set_data([data[0][num], data[1][num]])
-    point.set_3d_properties(data[2][num])
+    if num < len(data[0]):
+        point.set_data([data[0][num], data[1][num]])
+        point.set_3d_properties(data[2][num])
 
 
 N = 100
