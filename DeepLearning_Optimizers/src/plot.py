@@ -14,8 +14,16 @@ from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
 from matplotlib import cm
 from matplotlib.ticker import LinearLocator, FormatStrFormatter
+from matplotlib.animation import FuncAnimation
 import numpy as np
 
+import mpl_toolkits.mplot3d.axes3d as p3
+from matplotlib import animation
+
+
+# ---------------------------------------------------
+# Actual shape
+# ---------------------------------------------------
 
 fig = plt.figure()
 ax = fig.gca(projection='3d')
@@ -32,12 +40,9 @@ surf = ax.plot_surface(X, Y, Z, cmap=cm.coolwarm,
                        linewidth=0, antialiased=False)
 
 # Customize the z axis.
-#ax.set_zlim(-1.01, 1.01)
+# ax.set_zlim(-1.01, 1.01)
 ax.zaxis.set_major_locator(LinearLocator(10))
 ax.zaxis.set_major_formatter(FormatStrFormatter('%.02f'))
-
-# Add a color bar which maps values to colors.
-fig.colorbar(surf, shrink=0.5, aspect=5)
 
 
 my_data = genfromtxt('out.csv', delimiter=',')
@@ -46,5 +51,33 @@ x = my_data[:, 0]
 y = my_data[:, 1]
 z = my_data[:, 2]
 
-ax.plot3D(x, y, z, 'gray')
+# ax.plot3D(x, y, z, 'gray')
+# plt.show()
+
+# ---------------------------------------------------
+# Animated descent
+# ---------------------------------------------------
+
+
+def update(num, data, line, point):
+    line.set_data(data[:2, :num])
+    line.set_3d_properties(data[2, :num])
+
+    point.set_data([data[0][num], data[1][num]])
+    point.set_3d_properties(data[2][num])
+
+
+N = 100
+data = np.array([x, y, z])
+line, = ax.plot(x, y, z)
+point, = ax.plot([0], [0], [0], 'ro')
+
+ani = animation.FuncAnimation(fig, update, N, fargs=(
+    data, line, point), interval=10000/N, blit=False)
+# ani.save('matplot003.gif', writer='imagemagick')
+
+
+# draw a point
+
+
 plt.show()
