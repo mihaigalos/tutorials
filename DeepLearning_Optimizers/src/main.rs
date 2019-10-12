@@ -12,7 +12,7 @@ static VERBOSE: bool = true;
 // Dy= -0.6*x*y
 
 fn example_ground_truth(x: Vec<f32>) -> f32 {
-    0.1 * x[0].powf(3.0) - 0.3 * x[0] * x[1].powf(2.0)
+    0.1 * x[0].powf(3.0) - 0.3 * x[0] * x[1].powf(2.0)+200.0
 }
 
 fn example_derrivative_x(x: Vec<f32>) -> f32 {
