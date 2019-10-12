@@ -1,24 +1,13 @@
-'''
-======================
-3D surface (color map)
-======================
-
-Demonstrates plotting a 3D surface colored with the coolwarm color map.
-The surface is made opaque by using antialiased=False.
-
-Also demonstrates using the LinearLocator and custom formatting for the
-z axis tick labels.
-'''
+from matplotlib import animation
+import mpl_toolkits.mplot3d.axes3d as p3
+import numpy as np
+from matplotlib.animation import FuncAnimation
+from matplotlib.ticker import LinearLocator, FormatStrFormatter
+from matplotlib import cm
+import matplotlib.pyplot as plt
 from numpy import genfromtxt
 from mpl_toolkits.mplot3d import Axes3D
-import matplotlib.pyplot as plt
-from matplotlib import cm
-from matplotlib.ticker import LinearLocator, FormatStrFormatter
-from matplotlib.animation import FuncAnimation
-import numpy as np
-
-import mpl_toolkits.mplot3d.axes3d as p3
-from matplotlib import animation
+import matplotlib
 
 
 fig = plt.figure()
@@ -39,12 +28,11 @@ ax.zaxis.set_major_formatter(FormatStrFormatter('%.02f'))
 
 def update(num, data, line):
     for i in range(len(data)):
-        print
         line[i][0].set_data(data[i][:2, :num])
         line[i][0].set_3d_properties(data[i][2, :num])
 
 
-def load_data(csv_files, colors):
+def plot(csv_files, colors, labels):
     data = [[] for i in range(len(csv_files))]
     line = [[] for i in range(len(csv_files))]
 
@@ -59,13 +47,16 @@ def load_data(csv_files, colors):
 
         N = 1000
         data[i] = np.array([x, y, z])
-        line[i] = ax.plot(x, y, z)
+        line[i] = ax.plot(x, y, z, label=labels[i])
 
         i = i + 1
 
     ani = animation.FuncAnimation(fig, update, N, fargs=(
         data, line), interval=1000/N, blit=False)
+    ax.legend(labels)
+
     plt.show()
 
 
-load_data(['gd.csv', 'rmsprop.csv', 'rmsprop_momentum.csv'], ['ro', 'go'])
+plot(['gd.csv', 'rmsprop.csv', 'rmsprop_momentum.csv'], [
+    'ro', 'go', '-b'], ['GD', 'RMSProp', 'RMSProp_Momentum'])
