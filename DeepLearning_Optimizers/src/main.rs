@@ -1,3 +1,4 @@
+use std::env;
 mod optimizers;
 use optimizers::ConfigMetadata;
 use optimizers::GrandientDescent;
@@ -40,6 +41,14 @@ fn epoch_callback_printer(epoch: i32, current_x: Vec<f32>, loss: f32, momentum: 
 }
 
 fn main() {
+    let args: Vec<String> = env::args().collect();
+    let no_summary = if args.len() > 1 && (&args[1] == "--no_summary") {
+        true
+    } else {
+        false
+    };
+    let algo = if args.len() > 2 { &args[2] } else { "" };
+
     let example_derrivatives: Vec<fn(Vec<f32>) -> f32> =
         vec![example_derrivative_x, example_derrivative_y];
     let start_: Vec<f32> = vec![-2.5, -5.0];
@@ -54,27 +63,39 @@ fn main() {
         epoch_printer: epoch_callback_printer,
     };
 
-    let gradient_descent = GrandientDescent {};
-    let (found, minimum_x, epochs) = gradient_descent.run(&config_metadata);
-    println!(
-        "GD: Solution: {:?}, minimum pos found at: {:?}, epochs: {}",
-        found, minimum_x, epochs
-    );
+    if algo == "--algo=gd" {
+        let gradient_descent = GrandientDescent {};
+        let (found, minimum_x, epochs) = gradient_descent.run(&config_metadata);
+        if !no_summary {
+            println!(
+                "GD: Solution: {:?}, minimum pos found at: {:?}, epochs: {}",
+                found, minimum_x, epochs
+            );
+        }
+    }
 
-    // let rms_prop = RMSProp {};
-    // let decay = 0.9;
-    // let (found, minimum_x, epochs) = rms_prop.run(&config_metadata, decay);
-    // println!(
-    //     "RMSProp: Solution: {:?}, minimum X found at: {:?}, epochs: {}",
-    //     found, minimum_x, epochs
-    // );
+    if algo == "--algo=rmsprop" {
+        let rms_prop = RMSProp {};
+        let decay = 0.9;
+        let (found, minimum_x, epochs) = rms_prop.run(&config_metadata, decay);
+        if !no_summary {
+            println!(
+                "RMSProp: Solution: {:?}, minimum X found at: {:?}, epochs: {}",
+                found, minimum_x, epochs
+            );
+        }
+    }
 
-    // let rms_prop_momentum = RMSPropMomentum {};
-    // let decay = 0.9;
-    // let mu = 0.9;
-    // let (found, minimum_x, epochs) = rms_prop_momentum.run(&config_metadata, decay, mu);
-    // println!(
-    //     "RMSProm with momentum: Solution: {:?}, minimum X found at: {:?}, epochs: {}",
-    //     found, minimum_x, epochs
-    // );
+    if algo == "--algo=rmsprop_momentum" {
+        let rms_prop_momentum = RMSPropMomentum {};
+        let decay = 0.9;
+        let mu = 0.9;
+        let (found, minimum_x, epochs) = rms_prop_momentum.run(&config_metadata, decay, mu);
+        if !no_summary {
+            println!(
+                "RMSProm with momentum: Solution: {:?}, minimum X found at: {:?}, epochs: {}",
+                found, minimum_x, epochs
+            );
+        }
+    }
 }
