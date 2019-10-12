@@ -69,13 +69,13 @@ def update(num, data, line, point):
         point.set_3d_properties(data[2][num])
 
 
-N = 100
+N = 1000
 data = np.array([x, y, z])
 line, = ax.plot(x, y, z)
 point, = ax.plot([0], [0], [0], 'ro')
 
 ani = animation.FuncAnimation(fig, update, N, fargs=(
-    data, line, point), interval=10000/N, blit=False)
+    data, line, point), interval=1000/N, blit=False)
 # ani.save('matplot003.gif', writer='imagemagick')
 
 

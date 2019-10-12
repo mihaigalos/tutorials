@@ -1,8 +1,8 @@
 mod optimizers;
 use optimizers::ConfigMetadata;
 use optimizers::GrandientDescent;
-// use optimizers::RMSProp;
-// use optimizers::RMSPropMomentum;
+use optimizers::RMSProp;
+use optimizers::RMSPropMomentum;
 
 static VERBOSE: bool = true;
 
@@ -42,11 +42,11 @@ fn epoch_callback_printer(epoch: i32, current_x: Vec<f32>, loss: f32, momentum: 
 fn main() {
     let example_derrivatives: Vec<fn(Vec<f32>) -> f32> =
         vec![example_derrivative_x, example_derrivative_y];
-    let start_: Vec<f32> = vec![-5.0, 7.0];
+    let start_: Vec<f32> = vec![-2.5, -5.0];
 
     let config_metadata = ConfigMetadata {
         start: start_,
-        step_size: 0.01,
+        step_size: 0.1,
         precision: 0.00001,
         max_epochs: 10000,
         ground_truth: example_ground_truth,
