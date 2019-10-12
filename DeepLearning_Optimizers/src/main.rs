@@ -7,7 +7,7 @@ use optimizers::RMSPropMomentum;
 
 static VERBOSE: bool = true;
 
-// Z = 0.1*X**3-0.3*X*(Y**2)
+// Z = 0.1*X**3-0.3*X*(Y**2)+200
 // Dx= 0.3*x^2 - 0.3y^2
 // Dy= -0.6*x*y
 

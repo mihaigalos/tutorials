@@ -53,7 +53,7 @@ def plot(csv_files, colors, labels):
 
     ani = animation.FuncAnimation(fig, update, N, fargs=(
         data, line), interval=1000/N, blit=False)
-    ax.legend(labels)
+    ax.legend(labels, loc='upper right')
 
     plt.show()
 
