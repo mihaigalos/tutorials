@@ -12,15 +12,13 @@ static VERBOSE: bool = true;
 // Dy= -0.6*x*y
 
 fn example_ground_truth(x: Vec<f32>) -> f32 {
-    0.1 * x[0].powf(3.0) - 0.3 * x[0] * x[1].powf(2.0)+200.0
+    0.1 * x[0].powf(3.0) - 0.3 * x[0] * x[1].powf(2.0) + 200.0
 }
 
 fn example_derrivative_x(x: Vec<f32>) -> f32 {
-    // println!("dx : {}", 0.3 * x[0].powf(2.0) - 0.3 * x[1].powf(2.0));
     0.3 * x[0].powf(2.0) - 0.3 * x[1].powf(2.0)
 }
 fn example_derrivative_y(x: Vec<f32>) -> f32 {
-    //  println!("dy : {}",-0.6 * x[0]* x[1]);
     -0.6 * x[0] * x[1]
 }
 
@@ -31,11 +29,7 @@ fn epoch_callback_printer(epoch: i32, current_x: Vec<f32>, loss: f32, momentum: 
                 "Epoch: {}, current pos: {:?}, loss: {}, momentum: {}",
                 epoch, current_x, loss, x
             ),
-            None => println!(
-                // "Epoch: {}, current pos: {:?}, loss: {}",
-                "{:?}, {}",
-                current_x, loss
-            ),
+            None => println!("{:?}, {}", current_x, loss),
         }
     }
 }
