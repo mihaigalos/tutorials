@@ -50,7 +50,7 @@ impl GrandientDescent {
                 self.implementation(&mut run_metadata, &config_metadata, dimmension);
             }
             let loss = (config_metadata.ground_truth)(run_metadata.next.clone());
-            if loss <= -200.0 {
+            if loss <= -400.0 {
                 return (
                     OptimizerResult::Converged,
                     run_metadata.current,

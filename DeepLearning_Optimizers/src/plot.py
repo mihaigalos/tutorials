@@ -45,12 +45,6 @@ ax.zaxis.set_major_locator(LinearLocator(10))
 ax.zaxis.set_major_formatter(FormatStrFormatter('%.02f'))
 
 
-my_data = genfromtxt('out.csv', delimiter=',')
-
-x = my_data[:, 0]
-y = my_data[:, 1]
-z = my_data[:, 2]
-
 # ax.plot3D(x, y, z, 'gray')
 # plt.show()
 
@@ -59,27 +53,35 @@ z = my_data[:, 2]
 # ---------------------------------------------------
 
 
-def update(num, data, line, point):
-    # if num < len(data[2, :num]):
-
-    line.set_data(data[:2, :num])
-    line.set_3d_properties(data[2, :num])
-    if num < len(data[0]):
-        point.set_data([data[0][num], data[1][num]])
-        point.set_3d_properties(data[2][num])
+def update(num, data, line):
+    for i in range(len(data)):
+        print
+        line[i][0].set_data(data[i][:2, :num])
+        line[i][0].set_3d_properties(data[i][2, :num])
 
 
-N = 1000
-data = np.array([x, y, z])
-line, = ax.plot(x, y, z)
-point, = ax.plot([0], [0], [0], 'ro')
+def load_data(csv_files, colors):
+    data = [[] for i in range(len(csv_files))]
+    line = [[] for i in range(len(csv_files))]
 
-ani = animation.FuncAnimation(fig, update, N, fargs=(
-    data, line, point), interval=1000/N, blit=False)
-# ani.save('matplot003.gif', writer='imagemagick')
+    i = 0
+    for csv_file in csv_files:
+
+        my_data = genfromtxt(csv_file, delimiter=',')
+
+        x = my_data[:, 0]
+        y = my_data[:, 1]
+        z = my_data[:, 2]
+
+        N = 1000
+        data[i] = np.array([x, y, z])
+        line[i] = ax.plot(x, y, z)
+
+        i = i + 1
+
+    ani = animation.FuncAnimation(fig, update, N, fargs=(
+        data, line), interval=1000/N, blit=False)
+    plt.show()
 
 
-# draw a point
-
-
-plt.show()
+load_data(['gd.csv', 'rmsprop.csv', 'rmsprop_momentum.csv'], ['ro', 'go'])
