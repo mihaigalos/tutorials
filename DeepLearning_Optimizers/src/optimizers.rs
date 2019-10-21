@@ -1,4 +1,3 @@
-use std::process;
 #[derive(Debug)]
 pub enum OptimizerResult {
     Converged,
