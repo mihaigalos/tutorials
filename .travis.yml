@@ -1,4 +1,5 @@
 language: rust
 script:
+  - cd DeepLearning_Optimizers/
   - cargo build --verbose --all
   - cargo test --verbose --all
