@@ -1,3 +1,5 @@
+#![cfg_attr(feature = "strict", deny(warnings))]
+
 use std::env;
 mod optimizers;
 use optimizers::ConfigMetadata;
