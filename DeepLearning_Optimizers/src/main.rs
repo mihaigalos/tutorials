@@ -1,11 +1,9 @@
 #![cfg_attr(feature = "strict", deny(warnings))]
 
 use std::env;
-mod optimizers;
-use optimizers::ConfigMetadata;
-use optimizers::GrandientDescent;
-use optimizers::RMSProp;
-use optimizers::RMSPropMomentum;
+
+extern crate deeplearning_optimizers;
+use deeplearning_optimizers::optimizers::*;
 
 static VERBOSE: bool = true;
 
