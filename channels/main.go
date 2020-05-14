@@ -31,14 +31,14 @@ func serialExecution(links []string) {
 func parallelExecution(links []string) {
 	fmt.Println("Using Go Routines for parallel execution:")
 
-	c := make(chan string)
+	l := make(chan string)
 
 	for _, link := range links {
-		go checkLinkParallel(link, c)
+		go checkLinkParallel(link, l)
 	}
 
 	for {
-		go checkLinkParallel(<-c, c)
+		go checkLinkParallel(<-l, l)
 	}
 }
 
@@ -51,13 +51,13 @@ func checkLink(link string) {
 	fmt.Println(link, "is up.")
 }
 
-func checkLinkParallel(link string, c chan string) {
+func checkLinkParallel(link string, l chan string) {
 	_, e := http.Get(link)
 	if e != nil {
-		c <- link
+		l <- link
 		fmt.Println(link, "is down.")
 		return
 	}
-	c <- link
+	l <- link
 	fmt.Println(link, "is up.")
 }
