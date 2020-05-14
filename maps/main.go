@@ -10,7 +10,14 @@ func main() {
 		"blue":  "0x0000FF",
 	}
 
-	delete(colors, "green")
+	printMap(colors)
 
 	fmt.Println(colors)
+}
+
+func printMap(c map[string]string) {
+	for k, v := range c {
+		fmt.Printf("Key: %v ", k)
+		fmt.Println("Value: ", v)
+	}
 }
