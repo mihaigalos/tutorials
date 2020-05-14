@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"time"
 )
 
 func main() {
@@ -24,25 +25,28 @@ func main() {
 func serialExecution(links []string) {
 	fmt.Println("Using serial execution:")
 	for _, link := range links {
-		checkLink(link)
+		checkLinkSerial(link)
 	}
 }
 
 func parallelExecution(links []string) {
 	fmt.Println("Using Go Routines for parallel execution:")
 
-	l := make(chan string)
+	c := make(chan string)
 
 	for _, link := range links {
-		go checkLinkParallel(link, l)
+		go checkLinkParallel(link, c)
 	}
 
-	for {
-		go checkLinkParallel(<-l, l)
+	for l := range c {
+		go func(l string) {
+			time.Sleep(5 * time.Second)
+			checkLinkParallel(l, c)
+		}(l)
 	}
 }
 
-func checkLink(link string) {
+func checkLinkSerial(link string) {
 	_, e := http.Get(link)
 	if e != nil {
 		fmt.Println(link, "might be down!")
