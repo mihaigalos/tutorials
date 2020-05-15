@@ -4,29 +4,28 @@ syntax = "proto3";
 /* Person is used to identify users
  * across our system */
 message Person {
-    // the age as of the person's creation
-    int32 age = 1;
-    // the first name as documented in the signup form
-    string first_name = 2;
-    string last_name = 3; // last name as documented in the signup form
-    // small_picture represents a small .jpg file
-    bytes small_picture = 4;
-    bool is_profile_verified = 5;
-    // height of the person in cms 
-    float height = 6;
+  // the age as of the person's creation
+  int32 age = 1;
+  // the first name as documented in the signup form
+  string first_name = 2;
+  string last_name = 3; // last name as documented in the signup form
+  // small_picture represents a small .jpg file
+  bytes small_picture = 4;
+  bool is_profile_verified = 5;
+  // height of the person in cms
+  float height = 6;
 
-    // a list of phone numbers that is optional to provide at signup
-    repeated string phone_numbers = 7;
+  // a list of phone numbers that is optional to provide at signup
+  repeated string phone_numbers = 7;
 
-    // we currently consider only 3 eye colours
-    enum EyeColour {
-        UNKNOWN_EYE_COLOUR = 0;
-        EYE_GREEN = 1;
-        EYE_BROWN = 2;
-        EYE_BLUE = 3;
-    }
+  // we currently consider only 3 eye colours
+  enum EyeColour {
+    UNKNOWN_EYE_COLOUR = 0;
+    EYE_GREEN = 1;
+    EYE_BROWN = 2;
+    EYE_BLUE = 3;
+  }
 
-    // it's an enum as defined above
-    EyeColour eye_colour = 8;
-
+  // it's an enum as defined above
+  EyeColour eye_colour = 8;
 }

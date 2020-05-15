@@ -6,7 +6,7 @@ package building;
 import "4-exercises-solutions/4-imports-with-packages/street.proto";
 
 message Building {
-    string building_name = 1;
-    int32 building_number = 2;
-    street.Street street = 3;
-  }
+  string building_name = 1;
+  int32 building_number = 2;
+  street.Street street = 3;
+}
