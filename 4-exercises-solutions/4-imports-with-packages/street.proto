@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+// remember to use the full path from the root of the project
+import "4-exercises-solutions/4-imports-with-packages/city.proto";
+
+package street;
+
+message Street {
+  string name = 1;
+  city.City city = 2;
+}

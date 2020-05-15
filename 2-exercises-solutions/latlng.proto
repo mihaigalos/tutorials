@@ -1,0 +1,11 @@
+// from:
+// https://github.com/googleapis/googleapis/blob/master/google/type/latlng.proto
+syntax = "proto3";
+
+message LatLng {
+  // The latitude in degrees. It must be in the range [-90.0, +90.0].
+  double latitude = 1;
+
+  // The longitude in degrees. It must be in the range [-180.0, +180.0].
+  double longitude = 2;
+}

@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+// remember to use the full path from the root of the project
+import "4-exercises-solutions/3-imports/city.proto";
+
+message Street {
+  string name = 1;
+  City city = 2;
+}
