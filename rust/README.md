@@ -1,4 +1,4 @@
-# Rust [![Build Status](https://travis-ci.org/mihaigalos/Algorithms.svg?branch=master)](https://travis-ci.org/mihaigalos/Algorithms)
+# Rust
 
 Collection of algorithms implemented (at least initially) for the purpose of learning `Rust`.
 <p align="center">
