@@ -36,7 +36,7 @@ fn non_converged(run_metadata: RunMetadata) -> (OptimizerResult, Vec<f32>, i32) 
 pub struct GrandientDescent {}
 
 impl GrandientDescent {
-    pub fn run(self, config_metadata: &ConfigMetadata) -> (OptimizerResult, Vec<f32>, i32) {
+    pub fn run(&self, config_metadata: &ConfigMetadata) -> (OptimizerResult, Vec<f32>, i32) {
         let mut run_metadata = RunMetadata {
             next: config_metadata.start.clone(),
             current: Vec::with_capacity(0),
@@ -75,7 +75,7 @@ pub struct RMSProp {}
 
 impl RMSProp {
     pub fn run(
-        self, config_metadata: &ConfigMetadata, decay: f32,
+        &self, config_metadata: &ConfigMetadata, decay: f32,
     ) -> (OptimizerResult, Vec<f32>, i32) {
         let mut run_metadata = RunMetadata {
             next: config_metadata.start.clone(),
@@ -125,7 +125,7 @@ pub struct RMSPropMomentum {}
 
 impl RMSPropMomentum {
     pub fn run(
-        self, config_metadata: &ConfigMetadata, decay: f32, mu: f32,
+        &self, config_metadata: &ConfigMetadata, decay: f32, mu: f32,
     ) -> (OptimizerResult, Vec<f32>, i32) {
         let mut run_metadata = RunMetadata {
             next: config_metadata.start.clone(),
