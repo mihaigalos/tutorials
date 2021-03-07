@@ -1,0 +1,11 @@
+[package]
+name = "hello"
+version = "0.1.0"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+libc = "0.2.2"
+bumpalo = "3.4.0"
+rayon = "1.5"
