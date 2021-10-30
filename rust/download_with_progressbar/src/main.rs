@@ -41,5 +41,5 @@ pub async fn download_file(client: &Client, url: &str, path: &str) -> Result<(),
 
 #[tokio::main]
 async fn main() {
-    download_file(&Client::new(), "https://github.com/Byron/dua-cli/releases/download/v2.10.2/dua-v2.10.2-x86_64-unknown-linux-musl.tar.gz", "dua-v2.10.2-x86_64-unknown-linux-musl.tar.gz").await;
+    download_file(&Client::new(), "https://releases.ubuntu.com/20.04/ubuntu-20.04.3-desktop-amd64.iso", "ubuntu.iso").await;
 }
