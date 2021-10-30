@@ -1,7 +1,3 @@
-// you need this in your cargo.toml
-// reqwest = { version = "0.11.3", features = ["stream"] }
-// futures-util = "0.3.14"
-// indicatif = "0.15.0"
 use std::cmp::min;
 use std::fs::File;
 use std::io::Write;
@@ -11,7 +7,6 @@ use indicatif::{ProgressBar, ProgressStyle};
 use futures_util::StreamExt;
 
 pub async fn download_file(client: &Client, url: &str, path: &str) -> Result<(), String> {
-    // Reqwest setup
     let res = client
         .get(url)
         .send()
@@ -21,14 +16,12 @@ pub async fn download_file(client: &Client, url: &str, path: &str) -> Result<(),
         .content_length()
         .ok_or(format!("Failed to get content length from '{}'", &url))?;
 
-    // Indicatif setup
     let pb = ProgressBar::new(total_size);
     pb.set_style(ProgressStyle::default_bar()
         .template("{msg}\n{spinner:.green} [{elapsed_precise}] [{wide_bar:.cyan/blue}] {bytes}/{total_bytes} ({bytes_per_sec}, {eta})")
-        .progress_chars("#>-"));
+        .progress_chars("█  "));
     pb.set_message(&format!("Downloading {}", url));
 
-    // download chunks
     let mut file = File::create(path).or(Err(format!("Failed to create file '{}'", path)))?;
     let mut downloaded: u64 = 0;
     let mut stream = res.bytes_stream();
