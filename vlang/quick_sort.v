@@ -2,7 +2,7 @@ import rand
 import time
 
 const (
-	element_count = 20_000_000 // how many random numbers to generate
+	element_count = 20_000_000
 	element_max_value = 999
 )
 
