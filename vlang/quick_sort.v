@@ -2,12 +2,12 @@ import rand
 import time
 
 const (
-	len = 2000000 // how many random numbers to generate
-	max = 999 // max of the generated numbers
+	element_count = 20_000_000 // how many random numbers to generate
+	element_max_value = 999
 )
 
 fn main() {
-	mut arr := generate_data(len, max)
+	mut arr := generate_data(element_count, element_max_value)
 	println('Length of random array is $arr.len')
 	println('Is sorted: ${is_sorted<int>(arr)}')
 	println('--- Starting ---')
@@ -22,10 +22,10 @@ fn main() {
 	println("Took: " +((end - start)/time.millisecond).str() + " ms.")
 }
 
-fn generate_data(length int, maximum int) []int {
+fn generate_data(length int, element_max_valueimum int) []int {
 	mut arr := []int{cap: length}
 	for _ in 0 .. length {
-		arr << rand.intn(maximum)
+		arr << rand.intn(element_max_valueimum)
 	}
 
 	return arr
@@ -38,7 +38,7 @@ fn quicksort<T>(mut a []T) {
 	}
 
 	mut left, mut right := 0, a.len - 1
-	mut pivot := rand.intn(max) % a.len
+	mut pivot := rand.intn(element_max_value) % a.len
 	a[pivot], a[right] = a[right], a[pivot]
 
 	for i, _ in a {
