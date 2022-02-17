@@ -8,8 +8,8 @@ const (
 
 fn main() {
 	mut arr := generate_data(len, max)
-	println('length of random array is $arr.len')
-	println('is sorted: ${is_sorted<int>(arr)}')
+	println('Length of random array is $arr.len')
+	println('Is sorted: ${is_sorted<int>(arr)}')
 	println('--- Starting ---')
 
 	start := time.now()
@@ -17,10 +17,9 @@ fn main() {
 	end := time.now()
 
 	println('--- Done ---')
-	println('is sorted: ${is_sorted<int>(arr)}')
+	println('Is sorted: ${is_sorted<int>(arr)}')
 
-	print(end - start)
-	println('s')
+	println("Took: " +((end - start)/time.millisecond).str() + " ms.")
 }
 
 fn generate_data(length int, maximum int) []int {
