@@ -1,7 +1,6 @@
 use std::cmp::min;
-use std::fs::File;
-use std::io::Write;
-
+use std::fs::{File, OpenOptions};
+use std::io::{Seek, Write};
 use reqwest::Client;
 use indicatif::{ProgressBar, ProgressStyle};
 use futures_util::StreamExt;
@@ -18,14 +17,33 @@ pub async fn download_file(client: &Client, url: &str, path: &str) -> Result<(),
 
     let pb = ProgressBar::new(total_size);
     pb.set_style(ProgressStyle::default_bar()
-        .template("{msg}\n{spinner:.green} [{elapsed_precise}] [{wide_bar:.cyan/blue}] {bytes}/{total_bytes} ({bytes_per_sec}, {eta})")
+        .template("{msg}\n{spinner:.green} [{elapsed_precise}] [{wide_bar:.white/blue}] {bytes}/{total_bytes} ({bytes_per_sec}, {eta})")
         .progress_chars("█  "));
     pb.set_message(&format!("Downloading {}", url));
 
-    let mut file = File::create(path).or(Err(format!("Failed to create file '{}'", path)))?;
+    let mut file;
     let mut downloaded: u64 = 0;
     let mut stream = res.bytes_stream();
+    
+    println!("Seeking in file.");
+    if std::path::Path::new(path).exists() {
+        println!("File exists. Resuming.");
+        file = std::fs::OpenOptions::new()
+            .read(true)
+            .append(true)
+            .open(path)
+            .unwrap();
 
+        let file_size = std::fs::metadata(path).unwrap().len();
+        file.seek(std::io::SeekFrom::Start(file_size)).unwrap();
+        downloaded = file_size;
+
+    } else {
+        println!("Fresh file..");
+        file = File::create(path).or(Err(format!("Failed to create file '{}'", path)))?;
+    }
+
+    println!("Commencing transfer");
     while let Some(item) = stream.next().await {
         let chunk = item.or(Err(format!("Error while downloading file")))?;
         file.write(&chunk)
@@ -41,5 +59,5 @@ pub async fn download_file(client: &Client, url: &str, path: &str) -> Result<(),
 
 #[tokio::main]
 async fn main() {
-    download_file(&Client::new(), "https://releases.ubuntu.com/20.04/ubuntu-20.04.3-desktop-amd64.iso", "ubuntu.iso").await;
+    download_file(&Client::new(), "https://releases.ubuntu.com/20.04/ubuntu-20.04.3-desktop-amd64.iso", "ubuntu.iso").await.unwrap();
 }
