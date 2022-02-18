@@ -2,8 +2,9 @@ import rand
 import time
 
 const (
-	element_count = 20_000_000
+	element_count = 2_000_000
 	element_max_value = 999
+	minimum_element_count = 2
 )
 
 fn main() {
@@ -33,7 +34,7 @@ fn generate_data(length int, element_max_valueimum int) []int {
 
 [direct_array_access]
 fn quicksort<T>(mut a []T) {
-	if a.len < 2 {
+	if a.len < minimum_element_count {
 		return
 	}
 
