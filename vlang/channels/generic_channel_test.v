@@ -1,23 +1,23 @@
-fn f<T>(ch chan T, data T) {
-	ch <- data
+fn publish<T>(channel chan T, data T) {
+	channel <- data
 }
 
 fn test_generic_channel_works_when_typical_string() {
 	expected := 'hello'
-	ch := chan string{}
+	channel := chan string{}
 
-	go f(ch, expected)
-	actual := <-ch
+	go publish(channel, expected)
+	actual := <-channel
 
 	assert actual == expected
 }
 
 fn test_generic_channel_works_when_typical_int() {
 	expected := 42
-	ch := chan int{}
+	channel := chan int{}
 
-	go f(ch, expected)
-	actual := <-ch
+	go publish(channel, expected)
+	actual := <-channel
 
 	assert actual == expected
 }
