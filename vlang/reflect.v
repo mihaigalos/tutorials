@@ -3,38 +3,22 @@ struct User {
 	age  int
 }
 
-
-//   fn is_metadata(field_name string) {
-//       match field_name {
-//           "is_pub" { true }
-//           "is_mut" { true }
-//           "is_shared" { true }
-//           "typ" { true }
-//           else { false }
-//       }
-//   }
-
-//   fn print_fields(data FieldData) {
-//
-//       $for field in FieldData.fields {
-//               println('user.${field} ')
-//               println('+++++')
-//
-//       }
-//   }
-
 fn (user User) print() {
 	$for field in User.fields {
-        //if !is_metadata(user.'$(field)')
-        {
-            println('user.${field} ')
-            println('----------')
-        }
+        print(user.$(field.name))
+        print(' ')
 	}
+    println('')
 }
 
 fn main() {
-    user := User{"Mihai", 36}
-    user.print()
-
+    mut users := []User{cap: 100}
+    user1 := User{"Foo", 55}
+    users << user1
+    user2 := User{"Bar", 22}
+    users << user2
+    
+    for user in users{
+        user.print()
+    }
 }
