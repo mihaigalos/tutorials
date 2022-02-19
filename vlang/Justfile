@@ -3,11 +3,7 @@ _default:
 
 test:
   #!/bin/bash
-  for d in $(find . -type d); do
-    pushd $d > /dev/null
-      v test .
-    popd > /dev/null
-  done
+  v test .
 
 format:
   #!/bin/bash
