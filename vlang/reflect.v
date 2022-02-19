@@ -3,9 +3,9 @@ struct User {
 	age  int
 }
 
-fn (user User) print() {
-	$for field in User.fields {
-        print(user.$(field.name))
+fn print_generic<T>(data T) {
+	$for field in T.fields {
+        print(data.$(field.name))
         print(' ')
 	}
     println('')
@@ -17,6 +17,6 @@ fn main() {
     users << User{"Bar", 22}
     
     for user in users{
-        user.print()
+        print_generic(user)
     }
 }
