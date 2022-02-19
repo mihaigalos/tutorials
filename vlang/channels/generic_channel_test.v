@@ -9,3 +9,13 @@ fn test_generic_channel_works_when_typical_string() {
 
     assert actual == expected
 }
+
+fn test_generic_channel_works_when_typical_int() {
+    expected := 42
+    ch := chan int{}
+
+	go f(ch, expected)
+    actual := <-ch
+
+    assert actual == expected
+}
