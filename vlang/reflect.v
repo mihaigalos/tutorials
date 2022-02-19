@@ -13,10 +13,8 @@ fn (user User) print() {
 
 fn main() {
     mut users := []User{cap: 100}
-    user1 := User{"Foo", 55}
-    users << user1
-    user2 := User{"Bar", 22}
-    users << user2
+    users << User{"Foo", 55}
+    users << User{"Bar", 22}
     
     for user in users{
         user.print()
