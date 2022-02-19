@@ -32,7 +32,6 @@ fn test_users_when_typical() {
 	assert get_generic_data(users[1]) == 'Bar 22 '
 }
 
-
 fn test_location_when_typical() {
 	mut locations := []Location{cap: 100}
 	locations << Location{3.14, 2.71}

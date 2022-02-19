@@ -2,8 +2,8 @@ import rand
 import time
 
 const (
-	element_count = 2_000_000
-	element_max_value = 999
+	element_count         = 2_000_000
+	element_max_value     = 999
 	minimum_element_count = 2
 )
 
@@ -20,7 +20,7 @@ fn test_is_sorted_when_typical() {
 	println('--- Done ---')
 	println('Is sorted: ${is_sorted<int>(arr)}')
 
-	println("Took: " +((end - start)/time.millisecond).str() + " ms.")
+	println('Took: ' + ((end - start) / time.millisecond).str() + ' ms.')
 }
 
 fn generate_data(length int, element_max_valueimum int) []int {

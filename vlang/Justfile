@@ -8,3 +8,11 @@ test:
       v test .
     popd > /dev/null
   done
+
+format:
+  #!/bin/bash
+  for d in $(find . -type d); do
+    pushd $d > /dev/null
+      v fmt -w .
+    popd > /dev/null
+  done
