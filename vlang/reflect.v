@@ -8,12 +8,17 @@ struct Location {
     lon	f32
 }
 
-fn print_generic<T>(data T) {
+fn get_generic_data<T>(data T) string {
+    mut result := ""
 	$for field in T.fields {
-        print(data.$(field.name))
-        print(' ')
+        result += data.$(field.name).str()
+        result += ' '
 	}
-    println('')
+    return result
+}
+
+fn print_generic<T>(data T){
+    println(get_generic_data<T>(data))
 }
 
 fn main() {
