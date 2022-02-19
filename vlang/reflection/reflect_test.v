@@ -25,6 +25,7 @@ fn print_generic<T>(data T) {
 
 fn test_users_when_typical() {
 	mut users := []User{cap: 100}
+
 	users << User{'Foo', 55}
 	users << User{'Bar', 22}
 
@@ -34,6 +35,7 @@ fn test_users_when_typical() {
 
 fn test_location_when_typical() {
 	mut locations := []Location{cap: 100}
+
 	locations << Location{3.14, 2.71}
 	locations << Location{12.34, 56.78}
 

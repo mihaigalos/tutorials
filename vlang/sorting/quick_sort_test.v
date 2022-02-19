@@ -19,7 +19,6 @@ fn test_is_sorted_when_typical() {
 
 	println('--- Done ---')
 	println('Is sorted: ${is_sorted<int>(arr)}')
-
 	println('Took: ' + ((end - start) / time.millisecond).str() + ' ms.')
 }
 
