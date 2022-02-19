@@ -1,5 +1,10 @@
 _default:
   @just --list --unsorted
 
-run:
-  v -prod run quick_sort.v
+test:
+  #!/bin/bash
+  for d in $(find . -type d); do
+    pushd $d > /dev/null
+      v test .
+    popd > /dev/null
+  done
