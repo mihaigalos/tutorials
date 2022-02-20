@@ -9,7 +9,7 @@ import (
 
 func main() {
 
-	data := generate_data(2000000)
+	data := generate_data(2_000_000)
 	fmt.Println("--- Starting ---")
 	start := time.Now()
 	sort.Slice(data, func(i, j int) bool {
