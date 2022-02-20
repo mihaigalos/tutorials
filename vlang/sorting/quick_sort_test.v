@@ -8,27 +8,27 @@ const (
 )
 
 fn test_is_sorted_when_typical() {
-	mut arr := generate_data(element_count, element_max_value)
-	println('Length of random array is $arr.len')
-	println('Is sorted: ${is_sorted<int>(arr)}')
+	mut array := generate_data(element_count, element_max_value)
+	println('Length of random array is $array.len')
+	println('Is sorted: ${is_sorted<int>(array)}')
 	println('--- Starting ---')
 
 	start := time.now()
-	quicksort<int>(mut arr)
+	quicksort<int>(mut array)
 	end := time.now()
 
 	println('--- Done ---')
-	println('Is sorted: ${is_sorted<int>(arr)}')
+	println('Is sorted: ${is_sorted<int>(array)}')
 	println('Took: ' + ((end - start) / time.millisecond).str() + ' ms.')
 }
 
 fn generate_data(length int, element_max_valueimum int) []int {
-	mut arr := []int{cap: length}
+	mut array := []int{cap: length}
 	for _ in 0 .. length {
-		arr << rand.intn(element_max_valueimum)
+		array << rand.intn(element_max_valueimum)
 	}
 
-	return arr
+	return array
 }
 
 [direct_array_access]
@@ -54,9 +54,9 @@ fn quicksort<T>(mut a []T) {
 	quicksort(mut a[left + 1..])
 }
 
-fn is_sorted<T>(arr []T) bool {
-	for i in 0 .. arr.len - 1 {
-		if arr[i] > arr[i + 1] {
+fn is_sorted<T>(array []T) bool {
+	for i in 0 ..array.len - 1 {
+		if array[i] > array[i + 1] {
 			return false
 		}
 	}
