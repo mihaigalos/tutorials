@@ -8,7 +8,7 @@ import (
 
 func main() {
 
-	slice := generate_data(2000000)
+	slice := generate_data(2_000_000)
 	fmt.Println("--- Starting ---")
 	start := time.Now()
 	a := quicksort(slice)
