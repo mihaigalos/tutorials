@@ -7,7 +7,7 @@ const (
 	minimum_element_count = 2
 )
 
-fn test_is_sorted_when_typical() {
+fn main() {
 	mut array := generate_data(element_count, element_max_value)
 	println('Length of random array is $array.len')
 	println('Is sorted: ${is_sorted<int>(array)}')
