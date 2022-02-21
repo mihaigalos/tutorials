@@ -1,10 +1,10 @@
-struct SquareIterator {
-	arr []int
+struct SquareIterator<T> {
+	arr []T
 mut:
-	idx int
+	idx usize
 }
 
-fn (mut iter SquareIterator) next() ?int {
+fn (mut iter SquareIterator<T>) next<T>() ?T {
 	if iter.idx >= iter.arr.len {
 		return error('')
 	}
@@ -17,7 +17,7 @@ fn (mut iter SquareIterator) next() ?int {
 fn test_square_works_when_typical() {
 	expected := [1, 4, 9, 16, 25]
 	input := [1, 2, 3, 4, 5]
-	squares := SquareIterator{
+	squares := SquareIterator<int>{
 		arr: input
 	}
 
