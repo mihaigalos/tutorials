@@ -14,17 +14,17 @@ fn (mut iter SquareIterator) next() ?int {
 	return iter.arr[iter.idx] * iter.arr[iter.idx]
 }
 
-fn test_square_works_when_typical()  {
+fn test_square_works_when_typical() {
 	expected := [1, 4, 9, 16, 25]
 	input := [1, 2, 3, 4, 5]
-    squares := SquareIterator{
-        arr: input
-    }
+	squares := SquareIterator{
+		arr: input
+	}
 
-	mut actual := []int
-    for square in squares {
-        actual << square
-    }
+	mut actual := []int{}
+	for square in squares {
+		actual << square
+	}
 
 	assert actual == expected
 }

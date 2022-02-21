@@ -32,7 +32,7 @@ fn generate_data(length int, element_max_valueimum int) []int {
 }
 
 fn is_sorted<T>(array []T) bool {
-	for i in 0 ..array.len - 1 {
+	for i in 0 .. array.len - 1 {
 		if array[i] > array[i + 1] {
 			return false
 		}
