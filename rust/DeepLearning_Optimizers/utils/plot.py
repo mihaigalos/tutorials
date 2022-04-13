@@ -11,7 +11,7 @@ import matplotlib
 
 
 fig = plt.figure()
-ax = fig.gca(projection='3d')
+ax = plt.axes(projection ="3d")
 
 X = np.arange(-10, 10, 0.25)
 Y = np.arange(-10, 10, 0.25)
@@ -21,7 +21,8 @@ Z = 0.1*X**3-0.3*X*(Y**2)+200.0
 
 surf = ax.plot_surface(X, Y, Z, cmap=cm.coolwarm,
                        linewidth=0, antialiased=False)
-
+surf._facecolors2d = surf._facecolor3d
+surf._edgecolors2d = surf._edgecolor3d
 ax.zaxis.set_major_locator(LinearLocator(10))
 ax.zaxis.set_major_formatter(FormatStrFormatter('%.02f'))
 
@@ -58,5 +59,5 @@ def plot(csv_files, colors, labels):
     plt.show()
 
 
-plot(['gd.csv', 'rmsprop.csv', 'rmsprop_momentum.csv'], [
+plot(['output/gd.csv', 'output/rmsprop.csv', 'output/rmsprop_momentum.csv'], [
     'ro', 'go', '-b'], ['GD', 'RMSProp', 'RMSProp_Momentum'])
