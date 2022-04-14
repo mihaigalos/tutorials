@@ -1,0 +1,20 @@
+_default:
+  @just --list --unsorted
+
+tool := "pytorch-mnist-cnn-ocr"
+docker_container_registry := "ghcr.io"
+docker_user_repo := "mihaigalos"
+docker_image_version := "0.0.1"
+docker_image_dockerhub := docker_user_repo + "/" + tool+ ":" + docker_image_version
+
+build:
+    docker build -t {{ docker_image_dockerhub }} .
+
+run:
+    docker run --rm -it {{ docker_image_dockerhub }}
+
+push:
+    docker push {{ docker_image_dockerhub }}
+
+list:
+    echo {{ docker_image_dockerhub }}
