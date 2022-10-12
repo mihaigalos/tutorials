@@ -1,4 +1,4 @@
-import gfg
+import wrapper.gfg as gfg
 
 result = gfg.fact(5)
 print(result)
