@@ -1,0 +1,11 @@
+
+setup:
+    sudo apt-get update
+    sudo apt-get install swig
+
+run:
+    swig -python gfg.i
+    gcc -c -fpic gfg_wrap.c gfg.c -I/usr/include/python3.8
+    gcc -shared gfg.o gfg_wrap.o -o _gfg.so
+
+    python3 app.py
